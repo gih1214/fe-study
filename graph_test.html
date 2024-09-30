@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Progress Bars</title>
+        <style>
+            /* 섭취 칼로리 전체 컨테이너 */
+            .total-container {
+                padding: 10%;
+            }
+
+            .date {
+                text-align: right;
+            }
+            .ko-nm {
+                font-size: 25px;
+            }
+            .kcal-nm {
+                margin-top: 20px;
+                font-weight: bold;
+                font-size: 40px;
+                margin-bottom: 10px;
+            }
+
+            /* 그래프 */
+            .bar-container {
+                margin: 20px 0;
+                font-size: 16px;
+            }
+            .bar-label {
+                margin-bottom: 5px;
+                display: block;
+            }
+            .bar {
+                position: relative;
+                width: 100%;
+                height: 20px;
+                background-color: #e0e0e0;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .progress {
+                height: 100%;
+                background-color: green;
+                border-radius: 10px;
+                transition: width 0.4s ease;
+            }
+            .legend {
+                display: flex;
+                gap: 10px;
+                margin-top: 40px;
+            }
+            .legend span {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+            .legend span::before {
+                content: '';
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+            }
+            .legend .low::before {
+                background-color: #ffd951;
+            }
+            .legend .normal::before {
+                background-color: #5baa71;
+            }
+            .legend .high::before {
+                background-color: #ff9162;
+            }
+
+            .txt-container {
+                margin-top: 40px;
+                font-weight: normal;
+                font-size: 14px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="total-container">
+            <div class="date">2024.09.02</div>
+            <div class="ko-nm">한달 평균 섭취 칼로리</div>
+            <div class="kcal-nm">2400 kcal</div>
+
+            <div class="legend">
+                <span class="low">섭취 부족</span>
+                <span class="normal">적정</span>
+                <span class="high">섭취 과잉</span>
+            </div>
+
+            <div class="bar-container">
+                <span class="bar-label">탄수화물 120g</span>
+                <div class="bar">
+                    <div class="progress" id="carbs-bar"></div>
+                </div>
+            </div>
+
+            <div class="bar-container">
+                <span class="bar-label">단백질 30g</span>
+                <div class="bar">
+                    <div class="progress" id="protein-bar"></div>
+                </div>
+            </div>
+
+            <div class="bar-container">
+                <span class="bar-label">지방 35g</span>
+                <div class="bar">
+                    <div class="progress" id="fat-bar"></div>
+                </div>
+            </div>
+
+            <div class="bar-container">
+                <span class="bar-label">나트륨 1100mg</span>
+                <div class="bar">
+                    <div class="progress" id="sodium-bar"></div>
+                </div>
+            </div>
+            <div class="txt-container">한달 동안 식단의 섭취 평균 칼로리양 입니다. 한달 식단의 평균 영양성분을 분석하여 탄수화물, 단백질, 지방 등을 나타내 섭취한 평균 영양수치를 보여드립니다.</div>
+        </div>
+
+        <script>
+            function setBar(barId, value, min, max) {
+                const bar = document.getElementById(barId);
+                const percentage = (value / max) * 100;
+
+                bar.style.width = percentage + '%';
+
+                if (value < min) {
+                    bar.style.backgroundColor = '#FFD951'; // 섭취 부족
+                } else if (value > max) {
+                    bar.style.backgroundColor = '#FF9162'; // 섭취 과잉
+                } else {
+                    bar.style.backgroundColor = '#5BAA71'; // 적정 섭취
+                }
+            }
+
+            // 각 영양소의 값을 설정
+            // 데이터 넣는 구간
+            setBar('carbs-bar', 120, 150, 250);
+            setBar('protein-bar', 30, 20, 40);
+            setBar('fat-bar', 35, 20, 40);
+            setBar('sodium-bar', 1100, 700, 1000);
+        </script>
+    </body>
+</html>

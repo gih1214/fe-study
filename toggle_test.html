@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            /* 기본 체크박스 */
+            label {
+                display: inline-flex;
+                align-items: center;
+                gap: 0.5rem;
+                cursor: pointer;
+            }
+
+            /* 알약 스타일 */
+            [type='checkbox'] {
+                appearance: none; /* 기본 스타일 제거(체크박스) */
+                position: relative;
+                border: max(2px, 0.1em) solid #c5c5c5;
+                border-radius: 1.25em;
+                width: 2.25em;
+                height: 1.25em;
+                background-color: #c5c5c5;
+            }
+
+            /* 엄지 스타일 (알약 안에서 좌우로 움직이는 부분) */
+            [type='checkbox']::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                width: 1em;
+                height: 1em;
+                border-radius: 50%;
+                transform: scale(0.8);
+                background-color: white;
+                /* transition: left 250ms linear; */
+            }
+
+            /* 켜짐 상태 스타일 */
+            [type='checkbox']:checked::before {
+                background-color: white;
+                left: 1em;
+            }
+
+            [type='checkbox']:checked {
+                background-color: #083d07;
+                border-color: #083d07;
+            }
+        </style>
+    </head>
+    <body>
+        <label>
+            <span>증빙서류 보기</span>
+            <input role="switch" type="checkbox" />
+        </label>
+    </body>
+</html>
