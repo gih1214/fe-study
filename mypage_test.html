@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            /* 기본적인 스타일 리셋 */
+            * {
+                margin: 0;
+                padding: 0;
+                /* box-sizing: border-box; */
+            }
+
+            /* 전체 영역 */
+            .profile-card {
+                width: 80%;
+                margin: 20px auto; /* 수평 중앙 정렬 */
+            }
+
+            /* 프로필 영역 */
+            .profile-header {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 2px 2px 4px 0px #b7b7b7;
+            }
+
+            /* 프로필 이미지 스타일 */
+            .profile-img {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                margin-right: 15px;
+            }
+
+            /* 프로필 정보 스타일 */
+            .profile-info h2 {
+                font-size: 20px;
+                margin-bottom: 5px;
+            }
+
+            .profile-info p {
+                font-size: 14px;
+                color: #b7b7b7;
+            }
+
+            /* 아이콘 영역 */
+            .icon-section {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr); /* 4열 그리드 */
+                margin: 20px 0;
+                text-align: center;
+            }
+
+            /* 각 아이콘 스타일 */
+            .icon {
+                border-right: 1px solid #ddd; /* 오른쪽에만 테두리 */
+                border-bottom: 1px solid #ddd; /* 아래쪽에만 테두리 */
+                padding: 0.5em;
+            }
+
+            .icon img {
+                width: 40px;
+                height: 40px;
+                margin-top: 5px;
+            }
+
+            .icon p {
+                font-size: 10px;
+            }
+
+            /* 마지막 열에서 오른쪽 테두리 제거 */
+            .icon:nth-child(4n) {
+                border-right: none;
+            }
+
+            /* 마지막 행에서 아래쪽 테두리 제거 */
+            .icon:nth-last-child(-n + 4) {
+                border-bottom: none;
+            }
+
+            /* 두 번째 행의 가운데 셀을 빈 공간으로 만들기 */
+            .empty-icon {
+                visibility: hidden; /* 가운데 빈칸 */
+            }
+
+            /* 메뉴 항목 스타일 */
+            .menu-section {
+                margin-top: 20px;
+                border-top: 1px solid #eee;
+                border-radius: 10px;
+                box-shadow: 2px 2px 4px 0px #b7b7b7;
+            }
+
+            .menu-item {
+                padding: 15px 15px;
+                font-size: 14px;
+                border-bottom: 1px solid #eee;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .menu-item:last-child {
+                border-bottom: none;
+            }
+
+            /* 메뉴 항목의 화살표 스타일 */
+            .menu-item::after {
+                content: '>';
+                font-size: 14px;
+                color: #b7b7b7;
+            }
+        </style>
+    </head>
+    <body>
+        <!DOCTYPE html>
+        <html lang="ko">
+            <head>
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                <title>학생 UI</title>
+                <link rel="stylesheet" href="style.css" />
+            </head>
+            <body>
+                <!-- 전체 영역 -->
+                <div class="profile-card">
+                    <!-- 프로필 영역 -->
+                    <div class="profile-header">
+                        <img src="profile.png" alt="Profile Image" class="profile-img" />
+                        <div class="profile-info">
+                            <h2>학생1 님</h2>
+                            <h2>안녕하세요!</h2>
+                            <p>safeean@gmail.com</p>
+                        </div>
+                    </div>
+
+                    <!-- 아이콘 영역 -->
+                    <div class="icon-section">
+                        <div class="icon">
+                            <img src="point.svg" alt="포인트" />
+                            <p>포인트</p>
+                        </div>
+                        <div class="icon">
+                            <img src="my_review.svg" alt="내 댓글" />
+                            <p>내 댓글</p>
+                        </div>
+                        <div class="icon">
+                            <img src="my_board.svg" alt="내 게시글" />
+                            <p>내 게시글</p>
+                        </div>
+                        <div class="icon">
+                            <img src="my_like.svg" alt="내 좋아요" />
+                            <p>내 좋아요</p>
+                        </div>
+                        <div class="icon">
+                            <img src="add_user.svg" alt="학부모 등록" />
+                            <p>학부모 등록</p>
+                        </div>
+                        <div class="icon">
+                            <img src="add_card.svg" alt="카드 등록" />
+                            <p>카드 등록</p>
+                        </div>
+                        <div class="icon"></div>
+                        <div class="icon"></div>
+                    </div>
+
+                    <!-- 메뉴 항목 영역 -->
+                    <div class="menu-section">
+                        <div class="menu-item">공지사항</div>
+                        <div class="menu-item">이벤트</div>
+                        <div class="menu-item">약관 및 정책</div>
+                        <div class="menu-item">포인트 정책</div>
+                        <div class="menu-item">설정</div>
+                    </div>
+                </div>
+            </body>
+        </html>
+    </body>
+</html>
