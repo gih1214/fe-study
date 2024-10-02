@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>학교 검색</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                padding: 20px;
+            }
+
+            /* 검색창 */
+            .search-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .search-bar {
+                width: 100%;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .search-bar input {
+                width: 100%;
+                padding: 10px;
+                font-size: 16px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+
+            /* 지역/학교 필터 */
+            .filter-container {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .filter-buttons {
+                display: flex;
+                gap: 10px;
+            }
+
+            .filter-buttons button {
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                background-color: #f0f0f0;
+                cursor: pointer;
+            }
+
+            .filter-buttons button.active {
+                background-color: #007bff;
+                color: white;
+            }
+
+            /* 학교 목록 */
+            .school-list {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                max-height: 300px;
+                overflow-y: auto;
+                padding: 10px;
+            }
+
+            .school-list div {
+                padding: 10px;
+                border-bottom: 1px solid #eee;
+                cursor: pointer;
+            }
+
+            .school-list div:last-child {
+                border-bottom: none;
+            }
+
+            .school-list div:hover {
+                background-color: #f9f9f9;
+            }
+
+            /* select 스타일 */
+            select {
+                padding: 10px;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 검색창 -->
+        <div class="search-container">
+            <div class="search-bar">
+                <input type="text" id="search" placeholder="학교 이름을 검색하세요." />
+                <button onclick="searchSchool()">🔍</button>
+            </div>
+        </div>
+
+        <!-- 지역 옵션과 필터를 같은 행에 배치 -->
+        <div class="filter-container">
+            <select id="region" onchange="filterByRegion()">
+                <option value="전체">전체</option>
+                <option value="부산">부산</option>
+                <option value="경남">경남</option>
+            </select>
+
+            <!-- 학교 분류 버튼 -->
+            <div class="filter-buttons">
+                <button class="active" onclick="filterSchools('전체')">전체</button>
+                <button onclick="filterSchools('초등학교')">초등학교</button>
+                <button onclick="filterSchools('중학교')">중학교</button>
+                <button onclick="filterSchools('고등학교')">고등학교</button>
+            </div>
+        </div>
+
+        <div class="school-list" id="school-list">
+            <!-- 학교 목록 -->
+        </div>
+
+        <script>
+            // 예시 데이터 (DB에서 가져온 데이터라고 가정)
+            const schools = [
+                { name: '부산소프트웨어마이스터고등학교', type: '고등학교', region: '부산' },
+                { name: '해운대고등학교', type: '고등학교', region: '부산' },
+                { name: '부산진고등학교', type: '고등학교', region: '부산' },
+                { name: '브니엘고등학교', type: '고등학교', region: '부산' },
+                { name: '부산연제고등학교', type: '고등학교', region: '부산' },
+                { name: '대덕여자고등학교', type: '고등학교', region: '부산' },
+                { name: '백양고등학교', type: '고등학교', region: '부산' },
+                { name: '사상고등학교', type: '고등학교', region: '부산' },
+            ];
+
+            let filteredSchools = [...schools]; // 필터링된 데이터를 저장할 변수
+            let currentRegion = '전체'; // 현재 선택된 지역
+            let currentType = '전체'; // 현재 선택된 학교 타입
+
+            // 초기 리스트 렌더링
+            renderSchoolList();
+
+            // 학교 목록을 렌더링하는 함수
+            function renderSchoolList() {
+                const schoolList = document.getElementById('school-list');
+                schoolList.innerHTML = '';
+
+                if (filteredSchools.length === 0) {
+                    schoolList.innerHTML = '<div>검색 결과가 없습니다.</div>';
+                    return;
+                }
+
+                filteredSchools.forEach((school) => {
+                    const schoolDiv = document.createElement('div');
+                    schoolDiv.textContent = school.name;
+                    schoolList.appendChild(schoolDiv);
+                });
+            }
+
+            // 지역 선택 필터링
+            function filterByRegion() {
+                currentRegion = document.getElementById('region').value;
+                applyFilters();
+            }
+
+            // 학교 타입 선택 필터링
+            function filterSchools(type) {
+                currentType = type;
+
+                // 버튼 상태 변경
+                document.querySelectorAll('.filter-buttons button').forEach((button) => {
+                    button.classList.remove('active');
+                    if (button.textContent === type) {
+                        button.classList.add('active');
+                    }
+                });
+
+                applyFilters();
+            }
+
+            // 필터링 적용
+            function applyFilters() {
+                filteredSchools = schools.filter((school) => (currentRegion === '전체' || school.region === currentRegion) && (currentType === '전체' || school.type === currentType));
+                renderSchoolList();
+            }
+
+            // 검색 기능
+            function searchSchool() {
+                const searchInput = document.getElementById('search').value.toLowerCase();
+                filteredSchools = schools.filter(
+                    (school) =>
+                        school.name.toLowerCase().includes(searchInput) && (currentRegion === '전체' || school.region === currentRegion) && (currentType === '전체' || school.type === currentType)
+                );
+                renderSchoolList();
+            }
+        </script>
+    </body>
+</html>
