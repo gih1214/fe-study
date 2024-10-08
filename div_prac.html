@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style>
+            /* 전체 박스 스타일 */
+            .school-box {
+                display: flex;
+                align-items: center;
+                border: 2px solid #083d07;
+                border-radius: 10px;
+                background-color: white;
+            }
+
+            /* 왼쪽 상단 MY SCHOOL 라벨 스타일 */
+            .school-label {
+                position: relative;
+                top: -30px;
+                background-color: #083d07;
+                color: white;
+                font-size: 12px;
+                padding: 5px 10px;
+                border-radius: 10px;
+            }
+
+            /* 학교명 텍스트 스타일 */
+            .school-name {
+                font-size: 18px;
+                font-weight: bold;
+                color: #000;
+                flex-grow: 1;
+            }
+
+            /* 화살표 버튼 스타일 */
+            .arrow-button {
+                background-color: #083d07;
+                border: none;
+                color: white;
+                padding: 10px;
+                border-radius: 0 10px 10px 0;
+                cursor: pointer;
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            /* 화살표 아이콘 스타일 */
+            .arrow-button::before {
+                content: '>';
+            }
+        </style>
+    </head>
+    <body>
+        <div class="school-box">
+            <div class="school-label">MY SCHOOL</div>
+            <div class="school-name">부산소프트웨어마이스터고등학교</div>
+            <button class="arrow-button"></button>
+        </div>
+    </body>
+</html>
