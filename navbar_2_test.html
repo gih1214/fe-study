@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>햄버거</title>
+        <style>
+            .pv-box {
+                border: 1px solid black;
+                padding: 10px;
+            }
+
+            .container {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
+            .menu {
+                cursor: pointer;
+                width: 25px;
+                height: 30px;
+                position: relative;
+            }
+
+            .menu.active .bar {
+                /* 햄버거 메뉴 활성화 상태일 때 바의 위치를 조정 */
+                position: absolute;
+            }
+            .menu.active .bar:nth-child(2) {
+                /* 햄버거 메뉴 활성화 상태일 때 중간 바를 투명하게 만들어 숨김 */
+                opacity: 0;
+            }
+            .menu.active .bar:first-child {
+                /* 햄버거 메뉴 활성화 상태일 때 상단 바를 45도 회전 */
+                top: 25%;
+                transform: rotate(45deg);
+            }
+            .menu.active .bar:last-child {
+                /* 햄버거 메뉴 활성화 상태일 때 하단 바를 -45도 회전 */
+                top: 25%;
+                transform: rotate(-45deg);
+            }
+
+            .bar {
+                /* 햄버거 바 스타일 */
+                width: 25px;
+                height: 3px;
+                background-color: black;
+                margin: 6px 0;
+                transition: 0.5s; /* 트랜지션 효과로 부드러운 애니메이션 적용 */
+            }
+
+            /* 메뉴 */
+            #menu-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 250px; /* 메뉴 너비 설정 */
+                height: 100vh; /* 화면 전체 높이 */
+                background-color: white;
+                border-right: 1px solid #dbdbdb;
+                transform: translateX(-100%); /* 메뉴 기본적으로 화면 밖으로 */
+                transition: transform 0.5s ease; /* 슬라이드 애니메이션 */
+            }
+
+            .menu-list {
+                display: flex;
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .menu-list a {
+                text-decoration: none;
+                color: black;
+                padding: 10px 0;
+                display: block;
+            }
+
+            .accordion-toggle {
+                display: flex;
+                font-size: 16px;
+                font-weight: bold;
+                line-height: 1;
+                color: black;
+                border-top: 2px solid #dbdbdb;
+                flex-direction: column;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="pv-box">
+            <div class="container">
+                <div class="menu menu-icon" onclick="toggleSidebar()">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="menu-container">
+            <ul class="menu-list accordion">
+                <li class="toggle accordion-toggle">
+                    <a class="menu-link" href="/mainmenu">식단표</a>
+                    <a class="menu-link" href="/mainmenu">영양분석</a>
+                    <a class="menu-link" href="/mainmenu">가맹학교</a>
+                    <a class="menu-link" href="/mainmenu">세이피안</a>
+                </li>
+            </ul>
+        </div>
+
+        <script>
+            // 햄버거 메뉴 토글 함수
+            function toggleSidebar() {
+                const menu = document.querySelector('.menu');
+                const menuContainer = document.getElementById('menu-container');
+
+                // 햄버거 아이콘 애니메이션
+                menu.classList.toggle('active');
+
+                // 메뉴 슬라이드 토글
+                menuContainer.classList.toggle('active');
+            }
+        </script>
+    </body>
+</html>

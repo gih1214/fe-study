@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Hamburger Menu animate</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <style>
+            /* 헤더 */
+            #header-subdiv {
+                display: flex;
+                justify-content: space-between;
+            }
+
+            /*
+            로고 이미지
+            #logo{
+            width: 300px; 
+            height: 88px;
+            padding: 16px 410px 16px 40px;
+            }
+            */
+
+            /* 햄버거 메뉴 아이콘 스타일 */
+            #hamburger-menu {
+                cursor: pointer;
+                width: 50%;
+                display: flex;
+                justify-content: flex-start;
+            }
+
+            #hamburger-menu span {
+                width: 48px;
+                height: 2px;
+                background-color: black;
+                position: absolute;
+                margin-right: 30px;
+                transition: 0.4s ease-in-out;
+            }
+
+            /* 햄버거 닫혔을 때 */
+            #hamburger-menu span:nth-child(1) {
+                /* top: 35px; */
+            }
+            #hamburger-menu span:nth-child(2) {
+                /* top: 50px; */
+            }
+            #hamburger-menu span:nth-child(3) {
+                /* top: 65px; */
+            }
+
+            /* 햄버거 열렸을 때 */
+            #hamburger-menu.open span:nth-child(1) {
+                /*top: 50px;*/
+                transform: rotate(135deg);
+            }
+            #hamburger-menu.open span:nth-child(2) {
+                opacity: 0;
+            }
+            #hamburger-menu.open span:nth-child(3) {
+                /*top: 50px;*/
+                transform: rotate(-135deg);
+            }
+
+            /* 메뉴 */
+            #menu-container .menu-list {
+                position: absolute;
+                z-index: 999;
+                display: flex;
+                /*flex-direction: column;*/
+            }
+
+            /* 메인 메뉴 */
+            .accordion-toggle {
+                display: flex;
+                font-size: 32px;
+                font-weight: bold;
+                line-height: 1.5;
+                color: black;
+                border-top: 2px solid #dbdbdb;
+                flex-direction: column;
+                width: 100%;
+                height: 100%;
+            }
+
+            .accordion-toggle a {
+                color: black;
+                position: relative;
+                padding: 35px 35px;
+            }
+
+            /* 서브 메뉴 */
+            .menu-submenu {
+                background-color: #f5f5f5;
+                padding: 40px 36px;
+            }
+
+            .menu-submenu li {
+                font-size: 30px;
+                font-weight: normal;
+                line-height: 1.6;
+                color: #767676;
+            }
+
+            .menu-submenu li a {
+                display: block;
+                padding: 12px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <header id="header">
+            <div id="header-subdiv">
+                <div id="hamburger-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </header>
+
+        <div id="menu-container">
+            <ul class="menu-list accordion" style="display: none">
+                <li class="toggle accordion-toggle">
+                    <a class="menu-link" href="/mainmenu">식단표</a>
+                    <a class="menu-link" href="/mainmenu">영양분석</a>
+                    <a class="menu-link" href="/mainmenu">가맹학교</a>
+                    <a class="menu-link" href="/mainmenu">세이피안</a>
+                    <!--
+                        <div>
+                            <ul class="menu-submenu">
+                                <li><a href="/submenu1">서브메뉴1</a></li>
+                                <li><a href="/submenu2">서브메뉴2</a></li>
+                            </ul>
+                        </div>
+                    -->
+                </li>
+            </ul>
+        </div>
+        <script>
+            $(document).ready(function () {
+                var menuOpen = false;
+
+                // 메뉴 열기
+                $('#hamburger-menu').click(function (event) {
+                    event.stopPropagation();
+                    $('#hamburger-menu').toggleClass('open');
+                    $('.menu-list').toggle();
+
+                    if (menuOpen) {
+                        $('#main').show();
+                        menuOpen = false;
+                    } else {
+                        $('#main').hide();
+                        menuOpen = true;
+                    }
+                });
+
+                // 메뉴 닫기
+                $('#hamburger-menu.open').click(function () {
+                    $('#hamburger-menu').removeClass('open');
+                    $('#main').removeClass('overflow-hidden');
+                    $('#menu-container .menu-list').removeClass('active');
+                    $('.menu-list').hide();
+                });
+            });
+        </script>
+    </body>
+</html>

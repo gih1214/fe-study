@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>영양사 보고서 생성</title>
+        <style>
+            .report-container {
+                max-width: 600px;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+            }
+            input,
+            textarea {
+                width: 100%;
+                margin-top: 5px;
+                padding: 8px;
+            }
+            label {
+                font-weight: bold;
+                margin-top: 10px;
+                display: block;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="report-container" id="report">
+            <h2>고등학교 영양사 보고서</h2>
+            <label>학교명:</label>
+            <input type="text" id="schoolName" placeholder="학교명을 입력하세요" />
+
+            <label>식단 정보 (중식/석식):</label>
+            <input type="text" id="mealType" placeholder="식단명을 입력하세요" />
+
+            <label>날짜:</label>
+            <input type="date" id="mealDate" />
+
+            <label>메뉴:</label>
+            <textarea id="menu" rows="4" placeholder="메뉴를 입력하세요"></textarea>
+
+            <label>영양 성분 (열량, 탄수화물, 단백질 등):</label>
+            <textarea id="nutrition" rows="4" placeholder="영양 성분을 입력하세요"></textarea>
+
+            <label>특이사항:</label>
+            <textarea id="notes" rows="4" placeholder="특이사항을 입력하세요"></textarea>
+
+            <label>수량 및 공급업체 정보:</label>
+            <textarea id="supplyInfo" rows="4" placeholder="수량 및 공급업체 정보를 입력하세요"></textarea>
+
+            <button onclick="generatePDF()">PDF로 저장</button>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+        <script>
+            function generatePDF() {
+                const { jsPDF } = window.jspdf;
+
+                html2canvas(document.getElementById('report'), {
+                    scale: 2, // 캔버스 해상도를 두 배로 높임
+                }).then((canvas) => {
+                    const imgData = canvas.toDataURL('image/png'); // 캔버스를 이미지 데이터로 변환
+                    const pdf = new jsPDF();
+
+                    const imgWidth = 190; // PDF 이미지 너비 (A4 크기에 맞춤)
+                    const pageHeight = pdf.internal.pageSize.height;
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                    let heightLeft = imgHeight;
+                    let position = 0;
+
+                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+
+                    while (heightLeft >= 0) {
+                        position = heightLeft - imgHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                    }
+
+                    pdf.save('급식보고서.pdf');
+                });
+            }
+        </script>
+    </body>
+</html>

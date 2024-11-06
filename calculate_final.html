@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Progress Bars</title>
+        <!-- 제이쿼리 추가 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Chart.js 라이브러리 추가 -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <style>
+            /* 그래프 */
+            .chart-container {
+                width: 70%;
+                margin: auto;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h2 class="">하루 권장 섭취 칼로리 계산</h2>
+        <hr />
+        <!-- 컨테이너 시작 -->
+        <div class="container">
+            <!-- 칼로리 계산 폼 시작 -->
+            <div class=""><input id="gender-m" type="radio" class="" name="gender" value="남" checked />남 <input id="gender-w" type="radio" class="" name="gender" value="여" />여</div>
+            <div class="">나이 (만):<input id="age" class="" type="number" /></div>
+            <div class="">키 (cm):<input id="height" class="" type="number" /></div>
+            <div class="">체중(kg):<input id="weight" class="" type="number" /></div>
+            <div class="">
+                <select id="level" name="" class="">
+                    <option value="1.2">아주 적거나 거의 없음 (주로 앉아서 생활)</option>
+                    <option value="1.375" selected>가벼운 활동 (주 1~3회 운동)</option>
+                    <option value="1.55">중간 정도 활동 (주 3~5회 운동)</option>
+                    <option value="1.725">매우 활동적 (주 6~7회 운동)</option>
+                    <option value="1.9">극도로 활동적 (매우 활동적인 운동 또는 육체 노동)</option>
+                </select>
+            </div>
+            <button id="btn-calculate" type="button" class="">계산하기</button>
+            <!-- 칼로리 계산 폼 끝 -->
+        </div>
+
+        <div id="result-container">
+            <!-- 칼로리 결과값 -->
+        </div>
+
+        <div class="chart-container">
+            <canvas id="macroChart"></canvas>
+            <!-- 차트 컨테이너 -->
+        </div>
+
+        <script>
+            // 하루 권장 칼로리 계산 이벤트 리스너
+            $('#btn-calculate').click(() => {
+                calculate();
+            });
+
+            // 라디오 버튼 선택 시 다른 버튼 해제 (기본 기능)
+            $('input[name="gender"]').click(function () {
+                $('input[name="gender"]').not(this).prop('checked', false);
+            });
+
+            // 계산 함수
+            function calculate() {
+                let gender = $('input[name="gender"]:checked').val();
+                let age = $('#age').val();
+                let height = $('#height').val();
+                let weight = $('#weight').val();
+                let activityLevel = parseFloat($('#level').val());
+
+                // Harris-Benedict 공식 (1-2)
+                // 1. 연령, 성별, 키, 체중을 기반으로 기초대사랑(BMR) 계산
+                //    남성 : BMR = 88.362 + (13.397 * 체중(kg)) + (4.799 * 키(cm)) - (5.677 * 연령)
+                //    여성 : BMR = 447.593 + (9.247 * 체중(kg)) + (3.098 * 키(cm)) - (4.330 * 연령)
+                let bmr;
+                if (gender === '남') {
+                    // 남성 BMR 계산
+                    bmr = 88.362 + 13.397 * weight + 4.799 * height - 5.677 * age;
+                } else {
+                    // 여성 BMR 계산
+                    bmr = 447.593 + 9.247 * weight + 3.098 * height - 4.33 * age;
+                }
+
+                // 2. 활동 수준에 따른 칼로리 계산
+                /*
+                    - 아주 적거나 거의 없음 (주로 앉아서 생활): BMR × 1.2
+                    - 가벼운 활동 (주 1~3회 운동): BMR × 1.375
+                    - 중간 정도 활동 (주 3~5회 운동): BMR × 1.55
+                    - 매우 활동적 (주 6~7회 운동): BMR × 1.725
+                    - 극도로 활동적 (매우 활동적인 운동 또는 육체 노동): BMR × 1.9
+                */
+                let recommendedCalories = bmr * activityLevel;
+                recommendedCalories = recommendedCalories.toFixed(2);
+
+                // 3. 탄수화물, 단백질, 지방의 비율 계산 (50~60% 탄수화물, 10~20% 단백질, 20~30% 지방)
+                let carbs = recommendedCalories * 0.55; // 55% 기준
+                let protein = recommendedCalories * 0.15; // 15% 기준
+                let fat = recommendedCalories * 0.25; // 25% 기준
+
+                // 4. 그램(g)으로 변환
+                let carbsGrams = (carbs / 4).toFixed(2);
+                let proteinGrams = (protein / 4).toFixed(2);
+                let fatGrams = (fat / 9).toFixed(2);
+
+                showResult(recommendedCalories, carbsGrams, proteinGrams, fatGrams);
+            }
+
+            // 결과 출력 함수
+            function showResult(kcal, carbs, protein, fat) {
+                let resultContainer = document.getElementById('result-container');
+                resultContainer.innerHTML = ''; // 기존 슬라이드 내용 삭제
+
+                const divBox = document.createElement('div');
+                divBox.classList.add('result-container');
+                divBox.innerHTML = `
+                    <div>하루 권장 섭취 칼로리는 ${kcal} kcal 입니다.</div>
+                    <div>탄수화물: ${carbs} g</div>
+                    <div>단백질: ${protein} g</div>
+                    <div>지방: ${fat} g</div>
+                `;
+                resultContainer.appendChild(divBox);
+
+                // 차트 생성
+                const ctx = document.getElementById('macroChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['탄수화물', '단백질', '지방'],
+                        datasets: [
+                            {
+                                data: [carbs, protein, fat],
+                                backgroundColor: ['#FFD700', '#FFA500', '#FF6347'],
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true, // 브라우저 크기에 맞게 반응하도록 설정
+                        //cutout: '70%', // 차트의 막대 두께
+                        radius: '92%', // 그래프 축소율
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                align: 'center',
+                                labels: {
+                                    // 범례 스타일 설정
+                                    boxWidth: 10,
+                                    padding: 10,
+                                    font: {
+                                        size: 10,
+                                        weight: 'bold',
+                                        family: 'Pretendard, sans-serif',
+                                    },
+                                },
+                            },
+
+                            tooltip: {
+                                callbacks: {
+                                    label: function (tooltipItem) {
+                                        return tooltipItem.label + ': ' + tooltipItem.raw + ' g';
+                                    },
+                                },
+                            },
+                        },
+                    },
+                });
+            }
+        </script>
+    </body>
+</html>

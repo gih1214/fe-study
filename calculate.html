@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>청소년 하루 권장 칼로리 계산</title>
+        <!-- 제이쿼리 추가 -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <style></style>
+    </head>
+    <body>
+        <!-- https://www.cowlr.kr/kcalcal -->
+        <h2 class="">하루 권장 섭취 칼로리 계산</h2>
+        <hr />
+        <form name="mForm" action="">
+            <div class="">
+                <div>
+                    성별 :
+                    <label><input type="radio" class="input-value" name="남" checked="" value="남" />남</label>
+                    <label><input type="radio" class="input-value" name="여" value="여" />여</label>
+                </div>
+                <div>
+                    <label class="">나이 (만):<input class="input-value" name="age" type="number" value="" /></label>
+                </div>
+                <div>
+                    <label class="">키 (cm):<input class="input-value" type="number" value="" /></label>
+                </div>
+                <div>
+                    <label class="">체중(kg):<input class="input-value" type="number" value="" /></label>
+                </div>
+                <div>
+                    <label for="">활동수준:</label>
+                    <select id="" name="lifecheck" class="input-value">
+                        <option value="25">운동량이 거의 없는 경우</option>
+                        <option value="30" selected="">가벼운 운동을 꾸준히 하는 경우(가벼운 산책, 조깅)</option>
+                        <option value="35">강도 있는 운동을 하루 1시간 이상 하는 경우</option>
+                        <option value="40">중, 고강도 운동을 하루 2시간 이상 하는 경우</option>
+                    </select>
+                </div>
+            </div>
+            <button class="" onclick="calculate()">계산하기</button>
+        </form>
+        <script>
+            function calculate() {
+                var f = document.mForm; // f는 mForm을 가르킴
+                var temp = f.age;
+                //let data = 2000;
+                console.log('하루 권장 섭취 칼로리');
+                console.log(temp);
+                alert(temp);
+            }
+        </script>
+    </body>
+</html>

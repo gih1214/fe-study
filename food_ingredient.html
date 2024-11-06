@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>데이터 슬라이드</title>
+        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+        <style>
+            html,
+            body {
+                position: relative;
+            }
+
+            .swiper-container {
+                height: auto; /* 높이는 콘텐츠에 맞춰 자동 조정 */
+                border: 1px solid black;
+            }
+            .swiper-slide {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 16px; /* 반응형을 위해 폰트 크기 조정 */
+            }
+
+            /* 페이지네이션 설정 - 일단 이거 안 먹힘 */
+            .swiper-pagination {
+                position: relative; /* 상대적 위치 설정 */
+                bottom: auto; /* 기본값으로 변경 */
+                margin-top: 100px; /* 텍스트와의 간격 조정 */
+            }
+            .swiper-pagination-bullet {
+                width: 10px;
+                height: 10px;
+                background: transparent;
+                border: 1px solid black;
+            }
+            .swiper-pagination-bullet-active {
+                background: black;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="category-buttons">
+            <button onclick="showCategory('곡류')">곡류</button>
+            <button onclick="showCategory('육류')">육류</button>
+            <button onclick="showCategory('어패류')">어패류</button>
+            <button onclick="showCategory('난류')">난류</button>
+            <button onclick="showCategory('두류')">두류</button>
+            <button onclick="showCategory('채소류')">채소류</button>
+            <button onclick="showCategory('버섯류')">버섯류</button>
+            <button onclick="showCategory('감자류')">감자류</button>
+            <button onclick="showCategory('과일류')">과일류</button>
+            <button onclick="showCategory('유제품류')">유제품류</button>
+        </div>
+
+        <div class="swiper-container">
+            <div class="swiper-wrapper" id="swiper-wrapper">
+                <!-- 슬라이드 내용이 JavaScript를 통해 여기에 추가됩니다 -->
+            </div>
+            <!-- Add Pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- Add Navigation -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+        </div>
+
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+        <script>
+            const data = [
+                // 곡류
+                { category: '곡류', name: '귀리', energy: 388, protein: 11.14, fat: 8.9, carb: 66.66, sugar: 0.91, fiber: 8.1, calcium: 61, magnesium: 138, potassium: 405 },
+                { category: '곡류', name: '기장', energy: 360, protein: 11.2, fat: 1.9, carb: 74.6, sugar: 0.5, fiber: 1.9, calcium: 15, magnesium: 30, potassium: 233 },
+                { category: '곡류', name: '맵쌀', energy: 366, protein: 6.81, fat: 1.05, carb: 78.74, sugar: '-', fiber: 0.5, calcium: 7, magnesium: 30, potassium: 88 },
+                { category: '곡류', name: '밀', energy: 333, protein: 10.6, fat: 1, carb: 75.8, sugar: '-', fiber: '-', calcium: 52, magnesium: '-', potassium: 538 },
+                { category: '곡류', name: '국수', energy: 370, protein: 10.36, fat: 1.27, carb: 74.88, sugar: 2.58, fiber: 1.9, calcium: 19, magnesium: 25, potassium: 125 },
+                { category: '곡류', name: '보리', energy: 341, protein: 8.66, fat: 1.66, carb: 75.04, sugar: 0.51, fiber: 12.5, calcium: 38, magnesium: 64, potassium: 275 },
+                { category: '곡류', name: '찰쌀', energy: 358, protein: 9.79, fat: 2.09, carb: 73.4, sugar: 0.93, fiber: 6.2, calcium: 27, magnesium: 85, potassium: 366 },
+                { category: '곡류', name: '백미', energy: 363, protein: 6.64, fat: 0.99, carb: 78.17, sugar: 0.29, fiber: 1.2, calcium: 7, magnesium: 36, potassium: 104 },
+                { category: '곡류', name: '현미', energy: 356, protein: 7.28, fat: 2.29, carb: 75.52, sugar: 0.9, fiber: 5.2, calcium: 12, magnesium: 123, potassium: 266 },
+                { category: '곡류', name: '흑미', energy: 362, protein: 7.83, fat: 2.75, carb: 75.66, sugar: 1.77, fiber: 5.1, calcium: 19, magnesium: 125, potassium: 362 },
+                // 감자류
+                { category: '감자류', name: '감자', energy: 67, protein: 2.01, fat: 0.04, carb: 15.08, sugar: 0, fiber: 0, calcium: 9, magnesium: 25, potassium: 412 },
+                { category: '감자류', name: '고구마', energy: 147, protein: 1.09, fat: 0.15, carb: 35.52, sugar: 9.83, fiber: 2.7, calcium: 25, magnesium: 49, potassium: 362 },
+                // 두류
+                { category: '두류', name: '두부', energy: 97, protein: 9.62, fat: 4.63, carb: 3.75, sugar: 0, fiber: 2.9, calcium: 64, magnesium: 80, potassium: 132 },
+                // 채소류
+                { category: '채소류', name: '가지', energy: 19, protein: 1.13, fat: 0.03, carb: 4.36, sugar: 2.32, fiber: 2.7, calcium: 16, magnesium: 15, potassium: 232 },
+                { category: '채소류', name: '깍두기', energy: 40, protein: 1.36, fat: 0.21, carb: 8.27, sugar: 3.22, fiber: 2.7, calcium: 32, magnesium: 15, potassium: 258 },
+                { category: '채소류', name: '배추 김치', energy: 38, protein: 1.98, fat: 0.43, carb: 6.49, sugar: 2.4, fiber: 2.5, calcium: 43, magnesium: 25, potassium: 334 },
+                { category: '채소류', name: '열무 김치', energy: 36, protein: 2.39, fat: 0.38, carb: 5.87, sugar: 0.68, fiber: 2.7, calcium: 115, magnesium: 34, potassium: 353 },
+                { category: '채소류', name: '당근', energy: 31, protein: 1.02, fat: 0.13, carb: 7.03, sugar: 6.23, fiber: 3.1, calcium: 24, magnesium: 14, potassium: 299 },
+                { category: '채소류', name: '시금치', energy: 29, protein: 3.35, fat: 0.39, carb: 4.86, sugar: 0.4, fiber: 3.1, calcium: 66, magnesium: 77, potassium: 691 },
+                { category: '채소류', name: '양배추', energy: 33, protein: 1.68, fat: 0.07, carb: 7.92, sugar: 4.79, fiber: 2.7, calcium: 45, magnesium: 14, potassium: 241 },
+                { category: '채소류', name: '양파', energy: 29, protein: 0.95, fat: 0.04, carb: 6.67, sugar: 5.74, fiber: 1.7, calcium: 15, magnesium: 8, potassium: 145 },
+                { category: '채소류', name: '콩나물', energy: 36, protein: 4.64, fat: 1.36, carb: 3.8, sugar: 0.35, fiber: 1.6, calcium: 48, magnesium: 32, potassium: 218 },
+                // 과일류
+                { category: '과일류', name: '사과', energy: 52, protein: 0.26, fat: 0.07, carb: 13.96, sugar: 10.62, fiber: 2.2, calcium: 3, magnesium: 4, potassium: 116 },
+                // 유류 및 기타 등
+                { category: '육류', name: '닭고기', energy: 115, protein: 21.24, fat: 3.6, carb: 0, sugar: '-', fiber: '-', calcium: 11, magnesium: 15, potassium: 327 },
+                // 필요한 추가 데이터...
+            ];
+
+            const swiperContainer = document.getElementById('swiper-wrapper');
+            let swiper;
+
+            function showCategory(category) {
+                swiperContainer.innerHTML = ''; // 기존 슬라이드 내용 삭제
+                const filteredData = data.filter((item) => item.category === category);
+                console.log(filteredData);
+
+                filteredData.forEach((item) => {
+                    const slide = document.createElement('div');
+                    slide.classList.add('swiper-slide');
+                    slide.innerHTML = `
+                    <div>
+                        <strong>${item.name}</strong><br>
+                        에너지: ${item.energy} kcal<br>
+                        단백질: ${item.protein} g<br>
+                        지방: ${item.fat} g<br>
+                        탄수화물: ${item.carb} g<br>
+                        당류: ${item.sugar} g<br>
+                        식이섬유: ${item.fiber} g<br>
+                        칼슘: ${item.calcium} mg<br>
+                        마그네슘: ${item.magnesium} mg<br>
+                        칼륨: ${item.potassium} mg
+                    </div>
+                `;
+                    swiperContainer.appendChild(slide);
+                });
+
+                if (swiper) {
+                    swiper.destroy(true, true); // 기존 Swiper 인스턴스 제거
+                }
+
+                swiper = new Swiper('.swiper-container', {
+                    slidesPerView: 1, // 기본
+                    slidesPerView: 'auto', // 슬라이드의 넓이나 높이에 따라 자동계산
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                });
+            }
+
+            // 초기 화면: '곡류' 카테고리
+            showCategory('곡류');
+        </script>
+    </body>
+</html>
